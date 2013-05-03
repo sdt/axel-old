@@ -486,12 +486,17 @@ static void print_alternate_output(axel_t *axel)
 	long long int total=axel->size;
 	int i,j=0;
 	double now = gettime();
+	int width;
+	struct winsize w;
+
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	width = w.ws_col - 32;
 	
 	printf("\r[%3ld%%] [", min(100,(long)(done*100./total+.5) ) );
 		
 	for(i=0;i<axel->conf->num_connections;i++)
 	{
-		for(;j<((double)axel->conn[i].currentbyte/(total+1)*50)-1;j++)
+		for(;j<((double)axel->conn[i].currentbyte/(total+1)*width)-1;j++)
 			putchar('.');
 
 		if(axel->conn[i].currentbyte<axel->conn[i].lastbyte)
@@ -505,7 +510,7 @@ static void print_alternate_output(axel_t *axel)
 
 		j++;
 		
-		for(;j<((double)axel->conn[i].lastbyte/(total+1)*50);j++)
+		for(;j<((double)axel->conn[i].lastbyte/(total+1)*width);j++)
 			putchar(' ');
 	}
 	
