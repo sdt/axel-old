@@ -69,6 +69,7 @@ int main( int argc, char *argv[] )
 	search_t *search;
 	conf_t conf[1];
 	axel_t *axel;
+	time_t last_output_time = 0;
 	int i, j, cur_head = 0;
 	char *s;
 	
@@ -344,14 +345,18 @@ int main( int argc, char *argv[] )
 	while( !axel->ready && run )
 	{
 		long long int prev, done;
+		int cur_time = time(NULL);
 		
 		prev = axel->bytes_done;
 		axel_do( axel );
 		
 		if( conf->alternate_output )
 		{			
-			if( !axel->message && prev != axel->bytes_done )
+			if( !axel->message && cur_time > last_output_time )
+			{
 				print_alternate_output( axel );
+				last_output_time = cur_time;
+			}
 		}
 		else
 		{
@@ -404,6 +409,7 @@ int main( int argc, char *argv[] )
 				else
 					print_alternate_output(axel);
 			}
+			last_output_time = cur_time;
 		}
 		else if( axel->ready )
 		{
