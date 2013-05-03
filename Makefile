@@ -13,6 +13,7 @@
 # Add your translation here..
 MOFILES = nl.mo de.mo ru.mo zh_CN.mo
 
+GIT_COMMIT:=$(shell git rev-parse HEAD)
 
 all: $(OUTFILE)
 install: install-bin install-etc install-man
@@ -48,7 +49,7 @@ $(OUTFILE): axel.o conf.o conn.o ftp.o http.o search.o tcp.o text.o
 	$(STRIP) $(OUTFILE)
 
 .c.o:
-	$(CC) -c $*.c -o $*.o $(CFLAGS)
+	$(CC) -c $*.c -o $*.o -DGIT_COMMIT='"$(GIT_COMMIT)"' $(CFLAGS)
 
 install-bin:
 	mkdir -p $(DESTDIR)$(BINDIR)/

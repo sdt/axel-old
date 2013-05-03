@@ -591,7 +591,7 @@ void print_help()
 
 void print_version()
 {
-	printf( _("Axel version %s (%s)\n"), AXEL_VERSION_STRING, ARCH );
+	printf( _("Axel version %s (git %s) (%s)\n"), AXEL_VERSION_STRING, GIT_COMMIT, ARCH );
 	printf( "\nCopyright 2001-2002 Wilmer van der Gaast.\n" );
 }
 
