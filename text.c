@@ -353,7 +353,7 @@ int main( int argc, char *argv[] )
 		
 		if( conf->alternate_output )
 		{			
-			if( !axel->message && axel->bytes_done > 0 && cur_time > last_output_time )
+			if(!axel->message && (prev != axel->bytes_done) && (cur_time > last_output_time))
 			{
 				print_alternate_output( axel );
 				last_output_time = cur_time;
