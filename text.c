@@ -493,7 +493,7 @@ static void print_alternate_output(axel_t *axel)
 	long long int total=axel->size;
 	int i,j=0;
 	double now = gettime();
-	int width = get_term_width() - 30;
+	int width = get_term_width() - 32;
 	
 	printf("\r[%3ld%%] [", min(100,(long)(done*100./total+.5) ) );
 		
@@ -517,8 +517,10 @@ static void print_alternate_output(axel_t *axel)
 			putchar(' ');
 	}
 	
-	if(axel->bytes_per_second > 1048576)
+	if(axel->bytes_per_second >= 10 * 1024 * 1024)
 		printf( "] [%6.1fMB/s]", (double) axel->bytes_per_second / (1024*1024) );
+	else if(axel->bytes_per_second > 1024 * 1024)
+		printf( "] [%6.2fMB/s]", (double) axel->bytes_per_second / (1024*1024) );
 	else if(axel->bytes_per_second > 1024)
 		printf( "] [%6.1fKB/s]", (double) axel->bytes_per_second / 1024 );
 	else
