@@ -70,7 +70,7 @@ int main( int argc, char *argv[] )
 	search_t *search;
 	conf_t conf[1];
 	axel_t *axel;
-	time_t last_output_time = 0;
+	time_t last_output_time = time(NULL);
 	int i, j, cur_head = 0;
 	char *s;
 	
@@ -524,7 +524,7 @@ static void print_alternate_output(axel_t *axel)
 	else
 		printf( "] [%6.1fB/s]", (double) axel->bytes_per_second );
 	
-	if(done<total)
+	if(done<total && (axel->finish_time > 0))
 	{
 		int seconds,minutes,hours,days;
 		seconds=axel->finish_time - now;
